@@ -1,4 +1,4 @@
-# flutter_notes
+# postit
 
 A new Flutter application.
 

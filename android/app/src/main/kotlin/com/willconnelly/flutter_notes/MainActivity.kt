@@ -1,4 +1,4 @@
-package com.willconnelly.flutter_notes
+package com.willconnelly.postit
 
 import android.os.Bundle
 

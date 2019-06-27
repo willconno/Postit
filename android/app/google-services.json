@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "36591956314",
+    "firebase_url": "https://postit-wc.firebaseio.com",
+    "project_id": "postit-wc",
+    "storage_bucket": "postit-wc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:36591956314:android:edba6c8820defd57",
+        "android_client_info": {
+          "package_name": "com.willconnelly.postit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "36591956314-qi2kfcvc0dil0bbi3uunjnq0kshchujf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtfjJC0gXcjMSgkMpwrHx1iaAhkoVvwME"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "36591956314-qi2kfcvc0dil0bbi3uunjnq0kshchujf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "36591956314-p4jh500ns6e4ta3ih2t03029kgetb8kr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.willconnelly.postit"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
