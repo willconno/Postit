@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:postit/entity/User.dart';
 
 enum NoteListType {
   all, archive
@@ -27,18 +26,16 @@ class NotesListState extends State<NotesListWidget> {
   Widget build(BuildContext context, {pageIndex}) {
     return ListView.builder(
         itemBuilder: (context, i) {
-          return ListTile(
-            contentPadding: EdgeInsets.all(16.0),
-            title: getItem(context, i),
+          return Container(
+            height: 200,
+            margin: EdgeInsets.all(16),
+            decoration: getDecoration(i),
           );
         });
   }
 
-  Widget getItem(context, index) {
-    return Container(
-      height: 200,
-//      padding: EdgeInsets.all(16.0),
-      decoration: new BoxDecoration(
+  BoxDecoration getDecoration(index) {
+    return new BoxDecoration(
           borderRadius: new BorderRadius.circular(20.0),
           shape: BoxShape.rectangle,
           color: getColor(index),
@@ -48,7 +45,7 @@ class NotesListState extends State<NotesListWidget> {
               offset: new Offset(0.0, 16.0),
               blurRadius: 16.0,
             )
-          ]),
+          ]
     );
   }
 

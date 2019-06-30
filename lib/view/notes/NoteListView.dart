@@ -2,16 +2,16 @@
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:flutter/material.dart';
 
-import 'NoteListView.dart';
+import 'package:postit/view/notes/NoteListItemView.dart';
 
-class HomeWidget extends StatefulWidget {
+class NoteListWidget extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return new HomeState();
+    return new NoteListState();
   }
 }
 
-class HomeState extends State<HomeWidget> {
+class NoteListState extends State<NoteListWidget> {
   var _currentIndex = 0;
 
   PageController _pageController = PageController(initialPage: 0);
@@ -84,8 +84,4 @@ class HomeState extends State<HomeWidget> {
       _pageController.animateToPage(newIndex, duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
     });
   }
-
-//  Widget getChild(WidgetatIndex) {
-//    return new NotesListWidget();
-//  }
 }

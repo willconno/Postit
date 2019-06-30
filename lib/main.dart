@@ -1,10 +1,7 @@
-// Flutter code sample for material.AppBar.actions.1
-
-// This sample shows adding an action to an [AppBar] that opens a shopping cart.
-
 import 'package:flutter/material.dart';
 
-import 'view/HomeView.dart';
+import 'view/LoginView.dart';
+import 'view/notes/NoteListView.dart';
 
 void main() => runApp(MyApp());
 
@@ -16,7 +13,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: _title,
-      home: HomeWidget(),
+      home: LoginWidget(),
+      routes:  <String, WidgetBuilder>{
+        '/login': (BuildContext context) => LoginWidget(),
+        '/notes': (BuildContext context) => NoteListWidget(),
+      },
     );
   }
 }
