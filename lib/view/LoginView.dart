@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LoginWidget extends StatefulWidget {
   @override
@@ -37,9 +38,17 @@ class LoginState extends State<LoginWidget> {
                       ),
                       elevation: 3,
                       onPressed: () {
-                        if (_signIn() != null) {
-                          Navigator.of(context).pushReplacementNamed("/notes");
-                        }
+                        _signIn().then((user) {
+
+                          print(user);
+
+                          _updateUser(user).then( (_) {
+
+                            Navigator.of(context).pushReplacementNamed(
+                                "/notes");
+
+                          }).catchError( (e) => print(e));
+                        }).catchError((e) => print(e));
                       },
                     )
                   ],
@@ -48,18 +57,27 @@ class LoginState extends State<LoginWidget> {
             ))));
   }
 
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final GoogleSignIn _googleAuth = GoogleSignIn();
-
   Future<FirebaseUser> _signIn() async {
-    GoogleSignInAccount account = await _googleAuth.signIn();
+    GoogleSignInAccount account = await GoogleSignIn().signIn();
     GoogleSignInAuthentication auth = await account.authentication;
     print(auth);
 
-    var provider = GoogleAuthProvider.getCredential(idToken: auth.idToken, accessToken: auth.accessToken);
+    var provider = GoogleAuthProvider.getCredential(
+        idToken: auth.idToken, accessToken: auth.accessToken);
 
-    FirebaseUser user = await _firebaseAuth.signInWithCredential(provider);
-    print(user);
+    FirebaseUser user = await FirebaseAuth.instance.signInWithCredential(provider);
+
+
     return user;
+  }
+
+  Future<void> _updateUser(FirebaseUser user) async {
+    var profile = Map<String, dynamic>();
+
+    profile["email"] = user.email;
+    profile["name"] = user.displayName;
+
+    return await Firestore.instance.collection('users').document(user.uid)
+        .setData(profile, merge: true);
   }
 }
