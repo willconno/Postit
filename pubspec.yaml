@@ -31,6 +31,11 @@ dependencies:
 #  sqflite - https://github.com/tekartik/sqflite/blob/master/sqflite/README.md
   sqflite: ^1.1.6
 
+# Firebase - https://pub.dev/packages/firebase_auth#-installing-tab-
+  firebase_auth: ^0.11.1+7
+#  Google sign in - https://pub.flutter-io.cn/packages/google_sign_in
+  google_sign_in: ^4.0.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
