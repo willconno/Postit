@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:postit/view/login/LoginBloc.dart';
 
-import 'view/LoginView.dart';
-import 'view/notes/NoteListView.dart';
+import 'package:postit/view/login/LoginWidget.dart';
+import 'view/notes/NoteListWidget.dart';
 
 void main() => runApp(MyApp());
 
@@ -13,7 +14,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: _title,
-      home: LoginWidget(),
+      home: LoginBlocProvider(
+        child: Scaffold(
+          body: LoginWidget(),
+        )
+      ),
       routes:  <String, WidgetBuilder>{
         '/login': (BuildContext context) => LoginWidget(),
         '/notes': (BuildContext context) => NoteListWidget(),

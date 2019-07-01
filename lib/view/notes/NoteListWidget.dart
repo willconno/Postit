@@ -2,7 +2,7 @@
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:flutter/material.dart';
 
-import 'package:postit/view/notes/NoteListItemView.dart';
+import 'package:postit/view/notes/NoteListItemWidget.dart';
 
 class NoteListWidget extends StatefulWidget {
   @override
