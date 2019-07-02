@@ -3,18 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:postit/repo/UserRepo.dart';
 
-class LoginBloc {
-  final _repo = UserRepo();
-
-  Future<FirebaseUser> googleSignIn() => _repo.googleSignIn();
-
-  Future<void> updateUser(FirebaseUser user) => _repo.updateUser(user);
-
-  void dispose() async {
-    //dispose of streams
-  }
-}
-
 class LoginBlocProvider extends InheritedWidget {
   final bloc = LoginBloc();
 
@@ -25,5 +13,25 @@ class LoginBlocProvider extends InheritedWidget {
   static LoginBloc of(BuildContext context) {
     return (context.inheritFromWidgetOfExactType(
         LoginBlocProvider) as LoginBlocProvider).bloc;
+  }
+}
+
+class LoginBloc {
+  final _repo = UserRepo();
+
+  Future<FirebaseUser> googleSignIn() => _repo.googleSignIn();
+
+  Future<void> updateUser(FirebaseUser user) => _repo.updateUser(user);
+
+  void isAuthenticated(Function callback) {
+    _repo.currentUser().then( (user) {
+      if (user != null) {
+        callback(true);
+      }
+    });
+  }
+
+  void dispose() async {
+    //dispose of streams
   }
 }

@@ -29,4 +29,7 @@ class UserRepo {
           .setData(profile, merge: true);
   }
 
+  Future<FirebaseUser> currentUser() async {
+    return FirebaseAuth.instance.currentUser();
+  }
 }

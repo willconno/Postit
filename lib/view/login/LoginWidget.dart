@@ -8,6 +8,8 @@ class LoginWidget extends StatefulWidget {
   State<StatefulWidget> createState() {
     return LoginState();
   }
+
+
 }
 
 class LoginState extends State<LoginWidget> {
@@ -21,7 +23,18 @@ class LoginState extends State<LoginWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(padding: EdgeInsets.all(16), child: _center());
+    _bloc.isAuthenticated( (success) {
+      print("Hello");
+      if (success) { pushNotes(); }
+    });
+    return Scaffold(
+      body: Padding(padding: EdgeInsets.all(16), child: _center()),
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
