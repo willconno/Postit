@@ -1,18 +1,18 @@
-
 import 'package:flutter/material.dart';
 import 'NoteCreateBloc.dart';
+import 'package:flutter/gestures.dart';
 
 class NoteCreateWidget extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return NoteCreateState();
   }
-
 }
-
 
 class NoteCreateState extends State<NoteCreateWidget> {
   NoteCreateBloc _bloc;
+
+  final _bodyFocus = FocusNode();
 
   @override
   void didChangeDependencies() {
@@ -22,14 +22,66 @@ class NoteCreateState extends State<NoteCreateWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Create Note"),
-      ),
-      bottomNavigationBar: BottomNavigationBar(items: [
-        BottomNavigationBarItem(icon: Icon(Icons.arrow_back), title: Text("Back")),
-        BottomNavigationBarItem(icon: Icon(Icons.block), title: Text("Create Note"))
-      ]),
+    return GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(_bodyFocus);
+        },
+        child: Scaffold(
+          appBar: _appBar(context),
+          body: SingleChildScrollView(
+            child: _viewContainer(context),
+          ),
+        ));
+  }
+
+  Widget _viewContainer(context) {
+    return Column(
+      children: <Widget>[_titleField(), _bodyField()],
     );
+  }
+
+  Widget _appBar(context) {
+    return AppBar(
+      title: Text("Create Note"),
+      actions: <Widget>[
+        _saveButton(context)
+      ],
+    )
+  }
+
+  Widget _titleField() {
+    return TextField(
+      keyboardType: TextInputType.multiline,
+      maxLines: null,
+      decoration: InputDecoration(
+          contentPadding: EdgeInsets.all(16),
+          hintText: 'Give your note a title',
+          hasFloatingPlaceholder: false),
+    );
+  }
+
+  Widget _bodyField() {
+    return TextField(
+      keyboardType: TextInputType.multiline,
+      maxLines: null,
+      focusNode: _bodyFocus,
+      autofocus: true,
+      decoration: InputDecoration(
+          contentPadding: EdgeInsets.all(16),
+          hintText: 'Write your note in here',
+          hasFloatingPlaceholder: false,
+          border: InputBorder.none),
+    );
+  }
+
+  Widget _saveButton(context) {
+    return IconButton(
+        icon: Icon(Icons.save_alt),
+        onPressed: () => _onSavePressed(context)
+    );
+  }
+
+  void _onSavePressed(context) {
+    
   }
 }

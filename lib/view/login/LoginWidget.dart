@@ -24,7 +24,6 @@ class LoginState extends State<LoginWidget> {
   @override
   Widget build(BuildContext context) {
     _bloc.isAuthenticated( (success) {
-      print("Hello");
       if (success) { pushNotes(); }
     });
     return Scaffold(
