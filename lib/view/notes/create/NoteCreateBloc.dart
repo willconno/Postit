@@ -1,8 +1,15 @@
 
 import 'package:flutter/widgets.dart';
+import 'package:postit/entity/Note.dart';
+import 'package:postit/repo/NoteRepo.dart';
 
 class NoteCreateBloc {
 
+  final _repo = NoteRepo();
+
+  Future<List<Note>> getNotes() async {
+    return _repo.getNotes();
+  }
 
 }
 

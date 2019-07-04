@@ -26,6 +26,7 @@ class LoginBloc {
   void isAuthenticated(Function callback) {
     _repo.currentUser().then( (user) {
       if (user != null) {
+        _repo.updateUser(user);
         callback(true);
       }
     });

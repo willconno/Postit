@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'NoteCreateBloc.dart';
-import 'package:flutter/gestures.dart';
 
 class NoteCreateWidget extends StatefulWidget {
   @override
@@ -22,6 +21,9 @@ class NoteCreateState extends State<NoteCreateWidget> {
 
   @override
   Widget build(BuildContext context) {
+    _bloc.getNotes().then( (value) {
+      value.forEach( (note) {print(note.debugDescription());} );
+    });
     return GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(_bodyFocus);
@@ -46,7 +48,7 @@ class NoteCreateState extends State<NoteCreateWidget> {
       actions: <Widget>[
         _saveButton(context)
       ],
-    )
+    );
   }
 
   Widget _titleField() {
@@ -82,6 +84,6 @@ class NoteCreateState extends State<NoteCreateWidget> {
   }
 
   void _onSavePressed(context) {
-    
+
   }
 }

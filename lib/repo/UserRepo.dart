@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:postit/entity/User.dart';
 
 class UserRepo {
 
@@ -20,7 +21,7 @@ class UserRepo {
   }
 
   Future<void> updateUser(FirebaseUser user) async {
-    final profile = {'email': user.email, 'name': user.displayName};
+    final profile = {'email': user.email, 'displayName': user.displayName};
 
     return
       await _firestore

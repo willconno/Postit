@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       home: LoginBlocProvider(
         child: LoginWidget()
       ),
-      routes:  Routes.getRoutes(context),
+      routes: Routes.getRoutes(context),
     );
   }
 }
