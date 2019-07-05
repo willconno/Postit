@@ -55,6 +55,9 @@ class NoteCreateState extends State<NoteCreateWidget> {
     return TextField(
       keyboardType: TextInputType.multiline,
       maxLines: null,
+      style: TextStyle(
+        fontSize: 24
+      ),
       decoration: InputDecoration(
           contentPadding: EdgeInsets.all(16),
           hintText: 'Give your note a title',
