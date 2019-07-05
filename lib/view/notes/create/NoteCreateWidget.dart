@@ -21,9 +21,6 @@ class NoteCreateState extends State<NoteCreateWidget> {
 
   @override
   Widget build(BuildContext context) {
-    _bloc.getNotes().then( (value) {
-      value.forEach( (note) {print(note.debugDescription());} );
-    });
     return GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(_bodyFocus);
@@ -45,24 +42,21 @@ class NoteCreateState extends State<NoteCreateWidget> {
   Widget _appBar(context) {
     return AppBar(
       title: Text("Create Note"),
-      actions: <Widget>[
-        _saveButton(context)
-      ],
+      actions: <Widget>[_saveButton(context)],
     );
   }
 
   Widget _titleField() {
     return TextField(
-      keyboardType: TextInputType.multiline,
-      maxLines: null,
-      style: TextStyle(
-        fontSize: 24
-      ),
-      decoration: InputDecoration(
-          contentPadding: EdgeInsets.all(16),
-          hintText: 'Give your note a title',
-          hasFloatingPlaceholder: false),
-    );
+        keyboardType: TextInputType.multiline,
+        maxLines: null,
+        style: TextStyle(fontSize: 24,),
+        decoration: InputDecoration(
+            contentPadding: EdgeInsets.only(left: 16, right: 16, top: 24, bottom: 8),
+            hintText: 'Title',
+            hasFloatingPlaceholder: false,
+            border: InputBorder.none,
+            hintStyle: TextStyle(color: Colors.grey)));
   }
 
   Widget _bodyField() {
@@ -73,7 +67,7 @@ class NoteCreateState extends State<NoteCreateWidget> {
       autofocus: true,
       decoration: InputDecoration(
           contentPadding: EdgeInsets.all(16),
-          hintText: 'Write your note in here',
+          hintText: 'Type something in here',
           hasFloatingPlaceholder: false,
           border: InputBorder.none),
     );
@@ -81,12 +75,8 @@ class NoteCreateState extends State<NoteCreateWidget> {
 
   Widget _saveButton(context) {
     return IconButton(
-        icon: Icon(Icons.save_alt),
-        onPressed: () => _onSavePressed(context)
-    );
+        icon: Icon(Icons.save_alt), onPressed: () => _onSavePressed(context));
   }
 
-  void _onSavePressed(context) {
-
-  }
+  void _onSavePressed(context) {}
 }
