@@ -25,12 +25,18 @@ class NoteCreateState extends State<NoteCreateWidget> {
         onTap: () {
           FocusScope.of(context).requestFocus(_bodyFocus);
         },
-        child: Scaffold(
-          appBar: _appBar(context),
-          body: SingleChildScrollView(
-            child: _viewContainer(context),
-          ),
-        ));
+        child: Builder(builder: (context) => _scaffold(context)
+        )
+        );
+  }
+
+  Widget _scaffold(context) {
+    return Scaffold(
+      appBar: _appBar(context),
+      body: SingleChildScrollView(
+        child: _viewContainer(context),
+      ),
+    );
   }
 
   Widget _viewContainer(context) {
@@ -42,7 +48,9 @@ class NoteCreateState extends State<NoteCreateWidget> {
   Widget _appBar(context) {
     return AppBar(
       title: Text("Create Note"),
-      actions: <Widget>[_saveButton(context)],
+      actions: <Widget>[
+        SaveButton()
+      ],
     );
   }
 
@@ -72,11 +80,17 @@ class NoteCreateState extends State<NoteCreateWidget> {
           border: InputBorder.none),
     );
   }
+}
 
-  Widget _saveButton(context) {
+class SaveButton extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
     return IconButton(
-        icon: Icon(Icons.save_alt), onPressed: () => _onSavePressed(context));
+        icon: Icon(Icons.save_alt), onPressed: () => _onSavePressed(context));;
   }
 
-  void _onSavePressed(context) {}
+  void _onSavePressed(context) {
+    Scaffold.of(context).showSnackBar(SnackBar(content: Text("This action isn't supported yet.")));
+  }
 }
