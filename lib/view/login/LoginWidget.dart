@@ -76,11 +76,10 @@ class LoginState extends State<LoginWidget> {
   }
 
   void _onSignInPressed() {
-    _bloc.googleSignIn().then((_) {
-      pushNotes();
-//      if (user != null) {
-//        updateUser(user);
-//      }
+    _bloc.googleSignIn().then((user) {
+      if (user != null) {
+        updateUser(user);
+      }
     }).catchError((error, stack) {
       print(error);
     });

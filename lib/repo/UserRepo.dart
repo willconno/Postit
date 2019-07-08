@@ -7,7 +7,7 @@ class UserRepo {
 
   final _firestore = Firestore.instance;
 
-  Future<void> googleSignIn() async {
+  Future<FirebaseUser> googleSignIn() async {
     final account = await GoogleSignIn().signIn();
     final auth = await account.authentication;
     print(auth);
@@ -17,14 +17,14 @@ class UserRepo {
 
     final user = await FirebaseAuth.instance.signInWithCredential(provider);
 
-    return updateUser(user);
+    return user;
   }
 
   Future<void> updateUser(FirebaseUser user) async {
     final profile = {'email': user.email, 'displayName': user.displayName};
 
     return
-      await Firestore.instance
+      await _firestore
           .collection('users')
           .document(user.uid)
           .setData(profile, merge: true);

@@ -19,7 +19,7 @@ class LoginBlocProvider extends InheritedWidget {
 class LoginBloc {
   final _repo = UserRepo();
 
-  Future<void> googleSignIn() => _repo.googleSignIn();
+  Future<FirebaseUser> googleSignIn() => _repo.googleSignIn();
 
   Future<void> updateUser(FirebaseUser user) => _repo.updateUser(user);
 
