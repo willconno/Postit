@@ -28,6 +28,7 @@ class NoteListState extends State<NoteListWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: _appbar(context),
       body: PageView(
         controller: _pageController,
         children: [
@@ -51,6 +52,17 @@ class NoteListState extends State<NoteListWidget> {
       _currentIndex = newIndex;
       _pageController.animateToPage(newIndex, duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
     });
+  }
+  
+  Widget _appbar(context) {
+    return AppBar(
+      actions: <Widget>[
+        IconButton(icon: Icon(Icons.cancel), onPressed: () {
+          _bloc.signOut();
+          Navigator.of(context).pushReplacementNamed("/login");
+        })
+      ],
+    );
   }
 
   Widget _fab(context) {
@@ -101,4 +113,5 @@ class NoteListState extends State<NoteListWidget> {
       ],
     );
   }
+
 }

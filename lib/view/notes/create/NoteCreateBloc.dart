@@ -7,10 +7,6 @@ class NoteCreateBloc {
 
   final _repo = NoteRepo();
 
-  Future<List<Note>> getNotes() async {
-    return _repo.getNotes();
-  }
-
 }
 
 class NoteCreateBlocProvider extends InheritedWidget {

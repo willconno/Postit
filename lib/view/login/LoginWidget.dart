@@ -76,24 +76,22 @@ class LoginState extends State<LoginWidget> {
   }
 
   void _onSignInPressed() {
-    _bloc.googleSignIn().then((user) {
-      if (user != null) {
-        updateUser(user);
-      } else {
-        showSnackbar("Log in failed. Please try again later.");
-      }
+    _bloc.googleSignIn().then((_) {
+      pushNotes();
+//      if (user != null) {
+//        updateUser(user);
+//      }
     }).catchError((error, stack) {
       print(error);
-      showSnackbar(stack);
     });
   }
 
   void updateUser(FirebaseUser user) {
     _bloc.updateUser(user).then((_) {
-      pushNotes();
-    }).catchError((error, stack) {
+        pushNotes();
+
+    }).catchError((error) {
       print(error);
-      showSnackbar(stack);
     });
   }
 

@@ -1,7 +1,19 @@
 import 'package:flutter/widgets.dart';
+import 'package:postit/repo/NoteRepo.dart';
+import 'package:postit/entity/Note.dart';
+import 'package:postit/repo/UserRepo.dart';
 
 class NoteListBloc {
+  final _repo = NoteRepo();
+  final _userRepo = UserRepo();
 
+  Future<List<Note>> getNotes() async {
+    return _repo.getNotes();
+  }
+
+  void signOut(){
+    _userRepo.signOut();
+  }
 
 }
 
