@@ -57,7 +57,10 @@ class NotesListState extends State<NotesListWidget> {
         children: <Widget>[
           Row(
             children: <Widget>[
-              Text(note.title)
+              Text(note.title,
+              style: TextStyle(
+                fontSize: 22
+              ),)
             ],
           ),
           Row(
