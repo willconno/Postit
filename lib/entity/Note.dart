@@ -7,8 +7,8 @@ part 'Note.g.dart';
 @JsonSerializable(includeIfNull: false)
 class Note {
 
-  var body;
-  var title;
+  String body;
+  String title;
 
   Note();
 
