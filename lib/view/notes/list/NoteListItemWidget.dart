@@ -109,11 +109,7 @@ class NotesListState extends State<NotesListWidget> {
   }
 
   Color getColor(int index) {
-    if (index.isEven) {
-      return Colors.lightBlue;
-    } else {
-      return Colors.lightGreen;
-    }
+    return Colors.white;
   }
 
   void setItems() {

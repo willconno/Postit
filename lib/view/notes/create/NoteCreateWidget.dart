@@ -28,9 +28,7 @@ class NoteCreateState extends State<NoteCreateWidget> {
         onTap: () {
           FocusScope.of(context).requestFocus(_bodyFocus);
         },
-        child: Builder(builder: (context) => _scaffold(context)
-        )
-        );
+        child: Builder(builder: (context) => _scaffold(context)));
   }
 
   Widget _scaffold(context) {
@@ -52,7 +50,7 @@ class NoteCreateState extends State<NoteCreateWidget> {
     return AppBar(
       title: Text("Create Note"),
       actions: <Widget>[
-        SaveButton( onSavePressed: () {
+        SaveButton(onSavePressed: () {
           _saveNote();
           Navigator.of(context).pop();
         }),
@@ -66,9 +64,12 @@ class NoteCreateState extends State<NoteCreateWidget> {
         keyboardType: TextInputType.multiline,
         maxLines: null,
         controller: _titleFieldController,
-        style: TextStyle(fontSize: 24,),
+        style: TextStyle(
+          fontSize: 24,
+        ),
         decoration: InputDecoration(
-            contentPadding: EdgeInsets.only(left: 16, right: 16, top: 24, bottom: 8),
+            contentPadding:
+                EdgeInsets.only(left: 16, right: 16, top: 24, bottom: 8),
             hintText: 'Title',
             hasFloatingPlaceholder: false,
             border: InputBorder.none,
@@ -90,44 +91,47 @@ class NoteCreateState extends State<NoteCreateWidget> {
     );
   }
 
-  Note _builtNote(){
+  Note _builtNote() {
     return Note(
-      title: _titleFieldController.text,
-      body: _bodyFieldController.text
-    );
+        title: _titleFieldController.text, body: _bodyFieldController.text);
   }
 
-  void _saveNote(){
+  void _saveNote() {
     _bloc.saveNote(_builtNote());
   }
 }
 
 class SaveButton extends StatelessWidget {
-
-  Function onSavePressed;
+  final Function onSavePressed;
 
   SaveButton({this.onSavePressed});
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-        icon: Icon(Icons.save_alt), onPressed: () => onSavePressed());
-  }
-
-  void _onSavePressed(context) {
-    Scaffold.of(context).showSnackBar(SnackBar(content: Text("This action isn't supported yet.")));
+    return GestureDetector(
+      child: FlatButton(
+          onPressed: onSavePressed,
+          child: Text(
+              "Save",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18
+            ),
+          ))
+    );
+//    return IconButton(
+//        icon: Icon(Icons.save_alt), onPressed: () => onSavePressed());
   }
 }
 
 class MenuButton extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-        icon: Icon(Icons.more_vert), onPressed: () => _showMenu(context));
+    return PopupMenuButton(
+        itemBuilder: (context) => [_archiveButton(context)]);
   }
 
-  void _showMenu(context) {
-    Scaffold.of(context).showSnackBar(SnackBar(content: Text("This action isn't supported yet.")));
+  PopupMenuItem _archiveButton(context) {
+    return PopupMenuItem(child: Text("Archive"));
   }
 }
