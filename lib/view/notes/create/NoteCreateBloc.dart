@@ -7,6 +7,9 @@ class NoteCreateBloc {
 
   final _repo = NoteRepo();
 
+  void saveNote(note) {
+    _repo.saveNote(note);
+  }
 }
 
 class NoteCreateBlocProvider extends InheritedWidget {

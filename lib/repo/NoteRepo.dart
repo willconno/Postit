@@ -24,5 +24,10 @@ class NoteRepo {
     });
   }
 
+  void saveNote(Note note) async {
+    final notes = await _getNotes();
+    print(note.debugDescription());
+    notes.add(note.toJson());
+  }
 
 }

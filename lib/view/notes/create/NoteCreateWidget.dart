@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:postit/entity/Note.dart';
 import 'NoteCreateBloc.dart';
 
 class NoteCreateWidget extends StatefulWidget {
@@ -12,6 +13,8 @@ class NoteCreateState extends State<NoteCreateWidget> {
   NoteCreateBloc _bloc;
 
   final _bodyFocus = FocusNode();
+  final _titleFieldController = TextEditingController();
+  final _bodyFieldController = TextEditingController();
 
   @override
   void didChangeDependencies() {
@@ -49,7 +52,10 @@ class NoteCreateState extends State<NoteCreateWidget> {
     return AppBar(
       title: Text("Create Note"),
       actions: <Widget>[
-        SaveButton(),
+        SaveButton( onSavePressed: () {
+          _saveNote();
+          Navigator.of(context).pop();
+        }),
         MenuButton()
       ],
     );
@@ -59,6 +65,7 @@ class NoteCreateState extends State<NoteCreateWidget> {
     return TextField(
         keyboardType: TextInputType.multiline,
         maxLines: null,
+        controller: _titleFieldController,
         style: TextStyle(fontSize: 24,),
         decoration: InputDecoration(
             contentPadding: EdgeInsets.only(left: 16, right: 16, top: 24, bottom: 8),
@@ -73,6 +80,7 @@ class NoteCreateState extends State<NoteCreateWidget> {
       keyboardType: TextInputType.multiline,
       maxLines: null,
       focusNode: _bodyFocus,
+      controller: _bodyFieldController,
       autofocus: true,
       decoration: InputDecoration(
           contentPadding: EdgeInsets.all(16),
@@ -81,14 +89,29 @@ class NoteCreateState extends State<NoteCreateWidget> {
           border: InputBorder.none),
     );
   }
+
+  Note _builtNote(){
+    return Note(
+      title: _titleFieldController.text,
+      body: _bodyFieldController.text
+    );
+  }
+
+  void _saveNote(){
+    _bloc.saveNote(_builtNote());
+  }
 }
 
 class SaveButton extends StatelessWidget {
 
+  Function onSavePressed;
+
+  SaveButton({this.onSavePressed});
+
   @override
   Widget build(BuildContext context) {
     return IconButton(
-        icon: Icon(Icons.save_alt), onPressed: () => _onSavePressed(context));
+        icon: Icon(Icons.save_alt), onPressed: () => onSavePressed());
   }
 
   void _onSavePressed(context) {

@@ -9,8 +9,9 @@ class Note {
 
   String body;
   String title;
+  bool archived;
 
-  Note();
+  Note({this.title, this.body, this.archived = false});
 
   factory Note.fromJson(Map<String, dynamic> json) => _$NoteFromJson(json);
   Map<String, dynamic> toJson() => _$NoteToJson(this);
