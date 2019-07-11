@@ -9,10 +9,20 @@ class NoteRepo {
     return FirebaseAuth.instance.currentUser();
   }
 
-  Future<List<Note>> getNotes() async {
+  Future<CollectionReference> _getNotes() async {
     final user = await _getUser();
-    final collection = await Firestore.instance.collection("users").document(user.uid).collection("notes").getDocuments();
-    return Note.from(collection);
+    return Firestore.instance.collection("users").document(user.uid).collection("notes");
   }
+
+  void getNotes(archived, Function(List<Note>) callback) {
+    _getNotes().then( (items) {
+
+      items.where('archived', isEqualTo: archived).snapshots().listen((snapshot) {
+
+        callback(Note.from(snapshot));
+      });
+    });
+  }
+
 
 }

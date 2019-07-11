@@ -117,11 +117,10 @@ class NotesListState extends State<NotesListWidget> {
   }
 
   void setItems() {
-    _bloc.getNotes().then((result) {
-      this.items = result;
-      setState(() {});
-    }).catchError((error) {
-      print(error);
+    _bloc.getNotes(pageIndex == NoteListType.archive, (notes) {
+      setState(() {
+        this.items = notes;
+      });
     });
   }
 }

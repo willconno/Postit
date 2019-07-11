@@ -49,7 +49,8 @@ class NoteCreateState extends State<NoteCreateWidget> {
     return AppBar(
       title: Text("Create Note"),
       actions: <Widget>[
-        SaveButton()
+        SaveButton(),
+        MenuButton()
       ],
     );
   }
@@ -87,10 +88,23 @@ class SaveButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-        icon: Icon(Icons.save_alt), onPressed: () => _onSavePressed(context));;
+        icon: Icon(Icons.save_alt), onPressed: () => _onSavePressed(context));
   }
 
   void _onSavePressed(context) {
+    Scaffold.of(context).showSnackBar(SnackBar(content: Text("This action isn't supported yet.")));
+  }
+}
+
+class MenuButton extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+        icon: Icon(Icons.more_vert), onPressed: () => _showMenu(context));
+  }
+
+  void _showMenu(context) {
     Scaffold.of(context).showSnackBar(SnackBar(content: Text("This action isn't supported yet.")));
   }
 }

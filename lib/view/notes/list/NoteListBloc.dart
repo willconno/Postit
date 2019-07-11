@@ -7,8 +7,8 @@ class NoteListBloc {
   final _repo = NoteRepo();
   final _userRepo = UserRepo();
 
-  Future<List<Note>> getNotes() async {
-    return _repo.getNotes();
+  void getNotes(archived, Function(List<Note>) callback) {
+    return _repo.getNotes(archived, callback);
   }
 
   void signOut(){
