@@ -10,7 +10,8 @@ Note _$NoteFromJson(Map<String, dynamic> json) {
   return Note(
       title: json['title'] as String,
       body: json['body'] as String,
-      archived: json['archived'] as bool);
+      archived: json['archived'] as bool,
+      colour: json['colour'] as String);
 }
 
 Map<String, dynamic> _$NoteToJson(Note instance) {
@@ -25,5 +26,6 @@ Map<String, dynamic> _$NoteToJson(Note instance) {
   writeNotNull('body', instance.body);
   writeNotNull('title', instance.title);
   writeNotNull('archived', instance.archived);
+  writeNotNull('colour', instance.colour);
   return val;
 }
