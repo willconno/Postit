@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:postit/entity/Note.dart';
 import 'NoteCreateBloc.dart';
 
@@ -109,27 +110,63 @@ class SaveButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      child: FlatButton(
-          onPressed: onSavePressed,
-          child: Text(
+        child: FlatButton(
+            onPressed: onSavePressed,
+            child: Text(
               "Save",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 18
-            ),
-          ))
-    );
+              style: TextStyle(color: Colors.white, fontSize: 18),
+            )));
   }
 }
 
 class MenuButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return PopupMenuButton(
-        itemBuilder: (context) => [_archiveButton(context)]);
+    return PopupMenuButton<int>(
+      itemBuilder: (context) => [_archiveButton, _colourButton],
+      onCanceled: (){
+        print("cancelled!");
+      },
+      onSelected: (int item) {
+//        print("Hello!");
+          if (item == 2 ) {
+            _showColourPicker(context);
+          }
+      },
+    );
   }
 
-  PopupMenuItem _archiveButton(context) {
-    return PopupMenuItem(child: Text("Archive"));
+  final _archiveButton = PopupMenuItem(child: Text("Archive"), value: 1);
+  final _colourButton = PopupMenuItem(child: Text("Colour"), value: 2);
+
+  void _showColourPicker(context) {
+    print("Hello");
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Rewind and remember'),
+            content: MaterialColorPicker(
+              allowShades: false,
+              onColorChange: (result) {
+                //
+              },
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Cancel'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              FlatButton(
+                child: Text('Done'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
   }
 }

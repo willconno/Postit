@@ -23,21 +23,26 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
-#  Bubble Bottom Bar - https://pub.dev/packages/bubble_bottom_bar
+  #  Bubble Bottom Bar - https://pub.dev/packages/bubble_bottom_bar
   bubble_bottom_bar: ^1.2.0
 
-#  json_serialization - https://github.com/dart-lang/json_serializable/blob/master/example/README.md
+  #  json_serialization - https://github.com/dart-lang/json_serializable/blob/master/example/README.md
   json_annotation: ^2.4.0
-#  sqflite - https://github.com/tekartik/sqflite/blob/master/sqflite/README.md
+  #  sqflite - https://github.com/tekartik/sqflite/blob/master/sqflite/README.md
   sqflite: ^1.1.6
 
-# Firebase - https://pub.dev/packages/firebase_auth#-installing-tab-
+  # Firebase - https://pub.dev/packages/firebase_auth#-installing-tab-
   firebase_core: ^0.4.0
   firebase_auth: ^0.11.1+7
   cloud_firestore: ^0.12.7
 
   #  Google sign in - https://pub.flutter-io.cn/packages/google_sign_in
   google_sign_in: ^4.0.2
+
+  # https://pub.dev/packages/flutter_material_color_picker
+  flutter_material_color_picker: ^1.0.0
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
