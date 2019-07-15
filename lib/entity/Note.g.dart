@@ -8,10 +8,12 @@ part of 'Note.dart';
 
 Note _$NoteFromJson(Map<String, dynamic> json) {
   return Note(
+      id: json['id'] as String,
       title: json['title'] as String,
       body: json['body'] as String,
       archived: json['archived'] as bool,
-      colour: json['colour'] as String);
+      colour: json['colour'] as int,
+      inserted: json['inserted'] as String);
 }
 
 Map<String, dynamic> _$NoteToJson(Note instance) {
@@ -23,9 +25,11 @@ Map<String, dynamic> _$NoteToJson(Note instance) {
     }
   }
 
+  writeNotNull('id', instance.id);
   writeNotNull('body', instance.body);
   writeNotNull('title', instance.title);
   writeNotNull('archived', instance.archived);
   writeNotNull('colour', instance.colour);
+  writeNotNull('inserted', instance.inserted);
   return val;
 }

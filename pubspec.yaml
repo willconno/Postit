@@ -42,6 +42,9 @@ dependencies:
   # https://pub.dev/packages/flutter_material_color_picker
   flutter_material_color_picker: ^1.0.0
 
+#  https://pub.dev/packages/rxdart#-installing-tab-:
+  rxdart: ^0.22.0
+
 
 dev_dependencies:
   flutter_test:

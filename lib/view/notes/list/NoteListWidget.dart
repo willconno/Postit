@@ -11,6 +11,7 @@ class NoteListWidget extends StatefulWidget {
   State<StatefulWidget> createState() {
     return new NoteListState();
   }
+
 }
 
 class NoteListState extends State<NoteListWidget> {
@@ -22,7 +23,15 @@ class NoteListState extends State<NoteListWidget> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _bloc = NoteListBlocProvider.of(context);
+    if (_bloc == null) {
+      _bloc = NoteListBlocProvider.of(context);
+    }
+  }
+
+  @override
+  void dispose() {
+    _bloc.dispose();
+    super.dispose();
   }
 
   @override

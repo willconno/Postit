@@ -17,7 +17,7 @@ class NoteRepo {
   void getNotes(archived, Function(List<Note>) callback) {
     _getNotes().then( (items) {
 
-      items.where('archived', isEqualTo: archived).snapshots().listen((snapshot) {
+      items.where('archived', isEqualTo: archived).orderBy('inserted', descending: true).snapshots().listen((snapshot) {
 
         callback(Note.from(snapshot));
       });
@@ -27,7 +27,7 @@ class NoteRepo {
   void saveNote(Note note) async {
     final notes = await _getNotes();
     print(note.debugDescription());
-    notes.add(note.toJson());
+    notes.document(note.id).setData(note.toJson());
   }
 
 }

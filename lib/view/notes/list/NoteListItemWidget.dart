@@ -21,8 +21,6 @@ class NotesListState extends State<NotesListWidget> {
 
   final NoteListType pageIndex;
 
-  var items = List<Note>();
-
   NotesListState(this.pageIndex);
 
   @override
@@ -33,23 +31,31 @@ class NotesListState extends State<NotesListWidget> {
   }
 
   @override
-  Widget build(BuildContext context, {pageIndex}) {
-    return ListView.builder(
-        itemCount: items.length,
-        itemBuilder: (context, i) {
-          return _item(context, i);
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+        stream: _bloc.getNotes(this.pageIndex == NoteListType.archive),
+        builder: (context, AsyncSnapshot<List<Note>> snapshot) {
+          return ListView.builder(
+              itemCount: snapshot.data?.length ?? 0,
+              itemBuilder: (context, i) {
+                return _item(context, snapshot.data[i]);
+              });
         });
   }
 
-  Widget _item(context, index) {
-    final note = items[index];
+  Widget _item(context, note) {
 
-    return Container(
-      margin: EdgeInsets.all(16),
-      padding: EdgeInsets.all(16),
-      decoration: getDecoration(index),
-      child: Column(
-        children: _noteBodyView(note, context),
+    return GestureDetector(
+      onTapUp: (gesture) {
+        Navigator.of(context).pushNamed("/notes/create", arguments: note);
+      },
+      child: Container(
+        margin: EdgeInsets.all(16),
+        padding: EdgeInsets.all(16),
+        decoration: getDecoration(note),
+        child: Column(
+          children: _noteBodyView(note, context),
+        ),
       ),
     );
   }
@@ -57,9 +63,9 @@ class NotesListState extends State<NotesListWidget> {
   List<Widget> _noteBodyView(Note note, context) {
     var result = <Widget>[];
 
-    if (note.title.length > 0) {
+    if ((note.title?.length ?? 0) > 0) {
       final titleView = Row(
-        children: <Widget>[_largeLabel(note.title)],
+        children: <Widget>[_largeLabel(note.title, note.getTextColour())],
       );
 
       final pad = Padding(
@@ -70,9 +76,9 @@ class NotesListState extends State<NotesListWidget> {
       result.add(pad);
     }
 
-    if (note.body.length > 0) {
+    if ((note.body?.length ?? 0) > 0) {
       final bodyView = Row(
-        children: <Widget>[_label(note.body)],
+        children: <Widget>[_label(note.body, note.getTextColour())],
       );
 
       result.add(bodyView);
@@ -81,24 +87,29 @@ class NotesListState extends State<NotesListWidget> {
     return result;
   }
 
-  Widget _largeLabel(value) {
+  Widget _largeLabel(value, colour) {
     return Flexible(
         child: Text(
-          value,
-          style: TextStyle(fontSize: 22),
-        )
+      value,
+      style: TextStyle(fontSize: 22,
+          color: colour),
+    ));
+  }
+
+  Widget _label(value, colour) {
+    return Flexible(child: 
+    Text(value,
+    style: TextStyle(
+        color: colour
+    ),)
     );
   }
 
-  Widget _label(value) {
-    return Flexible(child: Text(value));
-  }
-
-  BoxDecoration getDecoration(index) {
+  BoxDecoration getDecoration(Note note) {
     return new BoxDecoration(
         borderRadius: new BorderRadius.circular(20.0),
         shape: BoxShape.rectangle,
-        color: getColor(index),
+        color: note.colour != null ? Color(note.colour) : Colors.white,
         boxShadow: <BoxShadow>[
           BoxShadow(
             color: Colors.grey,
@@ -108,15 +119,7 @@ class NotesListState extends State<NotesListWidget> {
         ]);
   }
 
-  Color getColor(int index) {
-    return Colors.white;
-  }
-
   void setItems() {
-    _bloc.getNotes(pageIndex == NoteListType.archive, (notes) {
-      setState(() {
-        this.items = notes;
-      });
-    });
+    _bloc.setNotes(pageIndex == NoteListType.archive);
   }
 }
