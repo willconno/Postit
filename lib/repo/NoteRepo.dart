@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:postit/entity/Note.dart';
 
+
 class NoteRepo {
 
   Future<FirebaseUser> _getUser(){
@@ -15,9 +16,11 @@ class NoteRepo {
   }
 
   void getNotes(archived, Function(List<Note>) callback) {
+
     _getNotes().then( (items) {
 
-      items.where('archived', isEqualTo: archived).orderBy('inserted', descending: true).snapshots().listen((snapshot) {
+      print("object");
+      items.where('archived', isEqualTo: archived).orderBy("inserted", descending: true).snapshots().listen((snapshot) {
 
         callback(Note.from(snapshot));
       });
@@ -26,8 +29,12 @@ class NoteRepo {
 
   void saveNote(Note note) async {
     final notes = await _getNotes();
+
     print(note.debugDescription());
-    notes.document(note.id).setData(note.toJson());
+
+    dynamic result = notes.document(note.id);
+    await result.setData(note.toJson(), merge: true);
+
   }
 
 }

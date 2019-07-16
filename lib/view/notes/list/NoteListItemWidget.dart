@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/src/rendering/sliver.dart';
+import 'package:flutter/src/rendering/sliver_grid.dart';
 import 'package:postit/entity/Note.dart';
 
 import 'NoteListBloc.dart';
@@ -26,12 +28,16 @@ class NotesListState extends State<NotesListWidget> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _bloc = NoteListBlocProvider.of(context);
-    setItems();
+    if (_bloc == null) {
+      _bloc = NoteListBlocProvider.of(context);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+
+    setItems();
+
     return StreamBuilder(
         stream: _bloc.getNotes(this.pageIndex == NoteListType.archive),
         builder: (context, AsyncSnapshot<List<Note>> snapshot) {
@@ -42,6 +48,19 @@ class NotesListState extends State<NotesListWidget> {
               });
         });
   }
+//
+//  @override
+//  Widget build(BuildContext context) {
+//    return StreamBuilder(
+//        stream: _bloc.getNotes(this.pageIndex == NoteListType.archive),
+//        builder: (context, AsyncSnapshot<List<Note>> snapshot) {
+//          return GridView.builder(gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+//              itemCount: snapshot.data?.length ?? 0,
+//              itemBuilder: (context, i) {
+//                return _item(context, snapshot.data[i]);
+//              });
+//        });
+//  }
 
   Widget _item(context, note) {
 

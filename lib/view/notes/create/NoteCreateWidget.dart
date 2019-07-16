@@ -102,7 +102,7 @@ class NoteCreateState extends State<NoteCreateWidget> {
               onChanged: _bloc.setTitle,
               style: TextStyle(
                 fontSize: 24,
-                color: _bloc.selectedNote.getTextColour(c: _selectedColour)
+                color: _bloc.selectedNote?.getTextColour(c: _selectedColour)
               ),
               decoration: InputDecoration(
                   contentPadding:
@@ -126,7 +126,7 @@ class NoteCreateState extends State<NoteCreateWidget> {
             autofocus: true,
             onChanged: _bloc.setBody,
             style: TextStyle(
-              color: _bloc.selectedNote.getTextColour(c: _selectedColour)
+              color: _bloc.selectedNote?.getTextColour(c: _selectedColour)
             ),
             decoration: InputDecoration(
                 contentPadding: EdgeInsets.all(16),

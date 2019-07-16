@@ -8,14 +8,14 @@ class NoteListBloc {
   final _repo = NoteRepo();
   final _userRepo = UserRepo();
 
-  final _notes = BehaviorSubject<List<Note>>();
-  final _archived = BehaviorSubject<List<Note>>();
+  final notesSubject = BehaviorSubject<List<Note>>();
+  final archivedSubject = BehaviorSubject<List<Note>>();
 
   Observable<List<Note>> getNotes(archived) {
    if (archived){
-     return _archived.stream;
+     return archivedSubject.stream;
    } else {
-     return _notes.stream;
+     return notesSubject.stream;
    }
   }
 
@@ -24,7 +24,7 @@ class NoteListBloc {
       if (archived) {
 
       } else {
-        _notes.sink.add(items);
+        notesSubject.sink.add(items);
       }
     });
   }
@@ -34,11 +34,12 @@ class NoteListBloc {
   }
 
   void dispose() async {
-    await _notes.drain();
-    _notes.close();
-    await _archived.drain();
-    _archived.close();
+    await notesSubject.drain();
+    notesSubject.close();
+    await archivedSubject.drain();
+    archivedSubject.close();
   }
+
 }
 
 class NoteListBlocProvider extends InheritedWidget {
