@@ -57,9 +57,17 @@ class NoteCreateState extends State<NoteCreateWidget> {
         return Scaffold(
           appBar: _appBar(context),
           backgroundColor: _selectedColour,
-          body: SingleChildScrollView(
-            child: _viewContainer(context),
-          ),
+          body:
+          Column(
+            children: <Widget>[
+              Expanded(child: SingleChildScrollView(
+                child: _viewContainer(context),
+              )),
+              _toolbar(context)
+            ],
+          )
+
+          ,
         );
       },
     );
@@ -71,24 +79,64 @@ class NoteCreateState extends State<NoteCreateWidget> {
     );
   }
 
-  Widget _appBar(context) {
-    return AppBar(
-      title: Text("Create Note"),
-      actions: <Widget>[
-        SaveButton(onSavePressed: () {
-//          _bloc.dispose();
-          _saveNote();
-          Navigator.of(context).pop();
-        }),
-        MenuButton(
-          onMenuOptionSelected: (MenuOption option) {
-            if (option == MenuOption.colour) {
-              _showColourPicker(context);
-            }
-          },
-        )
-      ],
+  Widget _toolbar(context) {
+    return Container(
+      height: 80,
+      padding: EdgeInsets.only(bottom: 16),
+      decoration: BoxDecoration(color: Theme.of(context).accentColor),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          _toolbarButtonColour(context),
+        ],
+      ),
     );
+  }
+
+  Widget _toolbarButtonColour(context) {
+    return FlatButton(
+      onPressed: () => _showColourPicker(context),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Icon(
+            Icons.colorize,
+            color: Colors.white,
+          ),
+          Text(
+            "Colour",
+            style: TextStyle(color: Colors.white),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _appBar(context) {
+    return PreferredSize(
+        child: Builder(builder: (context) {
+          return AppBar(
+            title: Text("Create Note"),
+            actions: <Widget>[
+              SaveButton(onSavePressed: () {
+                _bloc.dispose();
+                _saveNote();
+                Navigator.of(context).pop();
+              }),
+              MenuButton(
+                onMenuOptionSelected: (MenuOption option) {
+                  if (option == MenuOption.archive) {
+                    _bloc.archiveNote();
+                    final text = _bloc.archived ? "archived" : "unarchived";
+                    Scaffold.of(context).showSnackBar(
+                        SnackBar(content: Text("Note $text"), duration: Duration(seconds: 1),));
+                  }
+                },
+              )
+            ],
+          );
+        }),
+        preferredSize: Size.fromHeight(52));
   }
 
   Widget _titleField() {
@@ -99,11 +147,10 @@ class NoteCreateState extends State<NoteCreateWidget> {
               keyboardType: TextInputType.multiline,
               maxLines: null,
               controller: _titleFieldController,
-              onChanged: _bloc.setTitle,
+              onChanged: _bloc.title.sink.add,
               style: TextStyle(
-                fontSize: 24,
-                color: _bloc.selectedNote?.getTextColour(c: _selectedColour)
-              ),
+                  fontSize: 24,
+                  color: _bloc.selectedNote?.getTextColour(c: _selectedColour)),
               decoration: InputDecoration(
                   contentPadding:
                       EdgeInsets.only(left: 16, right: 16, top: 24, bottom: 8),
@@ -124,14 +171,12 @@ class NoteCreateState extends State<NoteCreateWidget> {
             focusNode: _bodyFocus,
             controller: _bodyFieldController,
             autofocus: true,
-            onChanged: _bloc.setBody,
+            onChanged: _bloc.body.sink.add,
             style: TextStyle(
-              color: _bloc.selectedNote?.getTextColour(c: _selectedColour)
-            ),
+                color: _bloc.selectedNote?.getTextColour(c: _selectedColour)),
             decoration: InputDecoration(
                 contentPadding: EdgeInsets.all(16),
                 hintText: 'Type something in here',
-
                 hasFloatingPlaceholder: false,
                 border: InputBorder.none),
           );
@@ -139,14 +184,22 @@ class NoteCreateState extends State<NoteCreateWidget> {
   }
 
   void _showColourPicker(context) {
+    final colors = materialColors.toList();
+    final white = ColorSwatch(Colors.white.value, Map());
+    colors.add(white);
     showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Rewind and remember'),
             content: MaterialColorPicker(
+              selectedColor: (_bloc.currentColour == null ||
+                      _bloc.currentColour == Colors.white.value)
+                  ? white
+                  : Color(_bloc.currentColour),
+              colors: colors,
               allowShades: false,
-              onMainColorChange: (result) => _bloc.setColour(result.value),
+              onMainColorChange: (result) =>
+                  _bloc.colour.sink.add(result.value),
             ),
             actions: <Widget>[
               FlatButton(
@@ -169,7 +222,6 @@ class NoteCreateState extends State<NoteCreateWidget> {
   void _saveNote() {
     _bloc.saveNote();
   }
-
 }
 
 class SaveButton extends StatelessWidget {
@@ -189,7 +241,7 @@ class SaveButton extends StatelessWidget {
   }
 }
 
-enum MenuOption { archive, colour }
+enum MenuOption { archive } //TODO add delete button
 
 class MenuButton extends StatelessWidget {
   final Function(MenuOption) onMenuOptionSelected;
@@ -199,7 +251,7 @@ class MenuButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<MenuOption>(
-      itemBuilder: (context) => [_archiveButton, _colourButton],
+      itemBuilder: (context) => [_archiveButton],
       onSelected: (MenuOption item) {
         onMenuOptionSelected(item);
       },
@@ -208,6 +260,4 @@ class MenuButton extends StatelessWidget {
 
   final _archiveButton =
       PopupMenuItem(child: Text("Archive"), value: MenuOption.archive);
-  final _colourButton =
-      PopupMenuItem(child: Text("Colour"), value: MenuOption.colour);
 }

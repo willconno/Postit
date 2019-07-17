@@ -23,42 +23,50 @@ class NoteCreateBlocProvider extends InheritedWidget {
 class NoteCreateBloc {
 
   final _repo = NoteRepo();
+
   Note selectedNote;
+  bool archived;
 
-  final _colour = BehaviorSubject<int>();
-  Function(int) get setColour => _colour.sink.add;
-  Observable<int> get colour => _colour.stream;
+  final colour = BehaviorSubject<int>();
+  int get currentColour => colour.value;
 
-  final _title = BehaviorSubject<String>();
-  Function(String) get setTitle => _title.sink.add;
-  Observable<String> get title => _title.stream;
+  final title = BehaviorSubject<String>();
+  String get currentTitle => title.value;
 
-  final _body = BehaviorSubject<String>();
-  Function(String) get setBody => _body.sink.add;
-  Observable<String> get body => _body.stream;
+  final body = BehaviorSubject<String>();
+  String get currentBody => body.value;
 
   void withNote(Note note) {
     selectedNote = note;
-    setTitle(note.title);
-    setBody(note.body);
-    setColour(note.colour);
+    archived = note?.archived ?? false;
+    title.sink.add(note.title);
+    body.sink.add(note.body);
+    colour.sink.add(note.colour);
   }
 
   Note _buildNote() {
-    return Note(id: selectedNote?.id, title: _title.value, body: _body.value, colour: _colour.value, inserted: selectedNote?.inserted);
+    return Note(id: selectedNote?.id, title: currentTitle, body: currentBody, archived: archived ?? false, colour: currentColour, inserted: selectedNote?.inserted);
   }
 
   void saveNote() {
     _repo.saveNote(_buildNote());
   }
 
+  void archiveNote() {
+    archived = !(archived ?? false);
+
+    if (selectedNote != null) {
+      _repo.archive(selectedNote, archived);
+    }
+  }
+
   void dispose() async {
-    await _colour.drain();
-    _colour.close();
-    await _title.drain();
-    _title.close();
-    await _body.drain();
-    _body.close();
+    await colour.drain();
+    colour.close();
+    await title.drain();
+    title.close();
+    await body.drain();
+    body.close();
   }
 
 }

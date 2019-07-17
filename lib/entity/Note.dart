@@ -62,7 +62,7 @@ class Note {
     double luminance =
         (0.299 * colour.red + 0.587 * colour.green + 0.114 * colour.blue) / 255;
 
-    if (luminance > 0.65)
+    if (luminance > 0.60)
       d = 0; // bright colors - black font
     else
       d = 255; // dark colors - white font

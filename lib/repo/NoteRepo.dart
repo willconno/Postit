@@ -19,7 +19,6 @@ class NoteRepo {
 
     _getNotes().then( (items) {
 
-      print("object");
       items.where('archived', isEqualTo: archived).orderBy("inserted", descending: true).snapshots().listen((snapshot) {
 
         callback(Note.from(snapshot));
@@ -35,6 +34,13 @@ class NoteRepo {
     dynamic result = notes.document(note.id);
     await result.setData(note.toJson(), merge: true);
 
+  }
+
+  void archive(Note note, archived) async {
+    final notes = await _getNotes();
+
+    final result = {"archived": archived};
+    notes.document(note.id).setData(result, merge: true);
   }
 
 }

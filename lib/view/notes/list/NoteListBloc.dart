@@ -22,7 +22,7 @@ class NoteListBloc {
   void setNotes(archived) {
     _repo.getNotes(archived, (items) {
       if (archived) {
-
+        archivedSubject.sink.add(items);
       } else {
         notesSubject.sink.add(items);
       }
