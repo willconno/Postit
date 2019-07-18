@@ -57,8 +57,7 @@ class NoteCreateState extends State<NoteCreateWidget> {
         return Scaffold(
           appBar: _appBar(context),
           backgroundColor: _selectedColour,
-          body:
-          Column(
+          body: Column(
             children: <Widget>[
               Expanded(child: SingleChildScrollView(
                 child: _viewContainer(context),
@@ -81,20 +80,21 @@ class NoteCreateState extends State<NoteCreateWidget> {
 
   Widget _toolbar(context) {
     return Container(
-      height: 80,
-      padding: EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(color: Theme.of(context).accentColor),
-      child: Row(
+      child: SafeArea(
+      bottom: true, child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           _toolbarButtonColour(context),
         ],
-      ),
+      )
+    ),
     );
   }
 
   Widget _toolbarButtonColour(context) {
     return FlatButton(
+      padding: EdgeInsets.only(top: 8, right: 8, left: 8),
       onPressed: () => _showColourPicker(context),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -103,6 +103,7 @@ class NoteCreateState extends State<NoteCreateWidget> {
             Icons.colorize,
             color: Colors.white,
           ),
+          Padding(padding: EdgeInsets.all(4)),
           Text(
             "Colour",
             style: TextStyle(color: Colors.white),
